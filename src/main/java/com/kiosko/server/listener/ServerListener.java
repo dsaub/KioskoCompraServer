@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 class ServerListener {
-    @RabbitListener(queuesToDeclare = @Queue(name = "server.connection", durable = "false"))
+    @RabbitListener(queuesToDeclare = @Queue(name = "server.connection", durable = "true"))
     public String verificarConexión(String message) {
         return "pong";
     }
