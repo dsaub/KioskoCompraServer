@@ -19,6 +19,6 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.IDENTITY) @Id private Long id;
     private Date created_at;
 
-    @OneToMany(mappedBy = "ticket_item", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TicketItem> items;
 }
