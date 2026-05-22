@@ -21,6 +21,6 @@ public class Product {
     private float price;
     private int stock;
 
-    @OneToMany(mappedBy = "barcodes", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Barcode> barcodes;
 }
