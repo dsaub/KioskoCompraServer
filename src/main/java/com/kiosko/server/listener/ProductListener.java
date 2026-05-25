@@ -17,9 +17,9 @@ public class ProductListener {
     private final ProductService productService;
 
     @RabbitListener(queuesToDeclare = @Queue(name = "product.create", durable = "true"))
-    public String createProduct(ProductDTO rec) {
+    public String createProduct(String rec) {
 
-        ProductDTO productDTO = productService.store(rec);
+        ProductDTO productDTO = productService.store(objectMapper.readValue(rec, ProductDTO.class));
         return objectMapper.writeValueAsString(productDTO);
     }
 
