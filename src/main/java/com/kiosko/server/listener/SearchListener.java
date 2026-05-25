@@ -14,7 +14,7 @@ import tools.jackson.databind.ObjectMapper;
 class SearchListener {
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final BarcodeService barcodeService;
-    @RabbitListener(queuesToDeclare = @Queue(name="product.search", durable = "true"))
+    @RabbitListener(queuesToDeclare = @Queue(name="barcode.search", durable = "true"))
     public String searchProduct(String rec) {
         BarcodeDTO dto = objectMapper.readValue(rec, BarcodeDTO.class);
         ProductDTO dto2 = barcodeService.getProduct(dto);

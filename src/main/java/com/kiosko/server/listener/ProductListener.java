@@ -2,6 +2,7 @@ package com.kiosko.server.listener;
 
 
 import com.kiosko.server.dto.ProductDTO;
+import com.kiosko.server.dto.ProductPageResponse;
 import com.kiosko.server.services.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.annotation.Queue;
@@ -20,6 +21,13 @@ public class ProductListener {
         ProductDTO productDTO = objectMapper.readValue(rec, ProductDTO.class);
         productDTO = productService.store(productDTO);
         return objectMapper.writeValueAsString(productDTO);
+    }
+
+    @RabbitListener(queuesToDeclare = @Queue(name = "product.search", durable = "true"))
+    public String searchProducts(int pageNum) {
+        ProductPageResponse resp = productService.getProducts(pageNum);
+
+        return objectMapper.writeValueAsString(resp);
     }
 
 }
