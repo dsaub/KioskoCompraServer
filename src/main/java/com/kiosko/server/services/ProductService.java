@@ -7,6 +7,8 @@ import com.kiosko.server.models.Product;
 import com.kiosko.server.repository.ProductRepository;
 import com.kiosko.server.exceptions.ProductNotFound;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,10 +19,18 @@ import java.util.Optional;
 @RequiredArgsConstructor
 class ProductService {
     private final ProductRepository productRepository;
-
+    private Logger logger = LoggerFactory.getLogger(ProductService.class);
     public Product fromDto(ProductDTO productDTO) throws ProductNotFound {
         Optional<Product> productOptional = productRepository.findById(productDTO.getId());
-        if (productOptional.isEmpty()) throw new ProductNotFound("Product with id " + productDTO.getId() + " not found");
+        if (productOptional.isEmpty()) {
+            logger.info("Product with id " + productDTO.getId() + " not found, creating one (without saving)");
+            Product product = new Product();
+            product.setBarcodes(new ArrayList<>());
+            product.setName(productDTO.getName());
+            product.setStock(productDTO.getStock());
+            product.setPrice(productDTO.getPrice());
+            return product;
+        }
         return productOptional.get();
     }
 
@@ -34,5 +44,7 @@ class ProductService {
         }
         return (BarcodeDTO[]) barcodeDTOArrayList.toArray();
     }
+
+
     // TODO: Make Product Search by barcode function
 }
