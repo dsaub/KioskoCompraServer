@@ -25,6 +25,7 @@ public class ProductListener {
             return objectMapper.writeValueAsString(productDTO);
         } catch (Exception e) {
             logger.error(e.getMessage());
+            return null;
         }
 
     }
