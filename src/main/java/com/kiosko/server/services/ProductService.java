@@ -26,6 +26,14 @@ public class ProductService {
     private final ProductRepository productRepository;
     private Logger logger = LoggerFactory.getLogger(ProductService.class);
     public Product fromDto(ProductDTO productDTO) throws ProductNotFound {
+        if (productDTO.getId() == null) {
+            Product product = new Product();
+            product.setBarcodes(new ArrayList<>());
+            product.setName(productDTO.getName());
+            product.setStock(productDTO.getStock());
+            product.setPrice(productDTO.getPrice());
+            return product;
+        }
         Optional<Product> productOptional = productRepository.findById(productDTO.getId());
         if (productOptional.isEmpty()) {
             logger.info("Product with id " + productDTO.getId() + " not found, creating one (without saving)");
@@ -56,6 +64,9 @@ public class ProductService {
     }
 
     public ProductDTO store(ProductDTO dto) {
+        if (dto.getId() == null) {
+            Product product = new Product()
+        }
         return store(fromDto(dto));
     }
 
