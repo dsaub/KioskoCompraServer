@@ -25,7 +25,7 @@ import java.util.Optional;
 public class ProductService {
     private final ProductRepository productRepository;
     private Logger logger = LoggerFactory.getLogger(ProductService.class);
-    public Product fromDto(ProductDTO productDTO) throws ProductNotFound {
+    public Product fromDto(ProductDTO productDTO) {
         if (productDTO.getId() == null) {
             Product product = new Product();
             product.setBarcodes(new ArrayList<>());
